@@ -50,4 +50,4 @@ if uploaded_file is not None:
 
     st.write('Топ-3 предсказания:')
     for i in range(3):
-        st.write(f'{gtranslate.translate((decode(top_classes[i])).replace("_", " ").capitalize(), "Russian")}: {top_probabilities[i]:.2f}')
+        st.write(f'{gtranslate.translate((decode(top_classes[i])).replace("_", " ").capitalize(), "Russian")}: {(top_probabilities[i]*100):.2f}%')
