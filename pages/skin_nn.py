@@ -14,7 +14,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 model = mobilenet_v3_small()
 model.classifier[3] = torch.nn.Linear(1024, 1)
-model.load_state_dict(torch.load('pages/skin_nn.pt'))
+model.load_state_dict(torch.load('pages/skin_nn.pt', map_location=torch.device('cpu')))
 model.to(device)
 
 uploaded_file = st.file_uploader('Пожалуйста, загрузите фотографию в формате .jpeg или .jpg', type=['jpg', 'jpeg'])
