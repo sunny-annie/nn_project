@@ -6,8 +6,9 @@ from torchvision.models import inception_v3, Inception_V3_Weights
 from torchvision import transforms as T
 from torchvision import io
 from PIL import Image
-
-
+from translatepy.translators.google import GoogleTranslate  
+ 
+gtranslate = GoogleTranslate()  
 
 with urllib.request.urlopen("https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json") as url:
     labels = json.load(url)
@@ -17,7 +18,7 @@ decode = lambda x: labels[str(x)][1]
 model = inception_v3(weights=Inception_V3_Weights.IMAGENET1K_V1)
 model.eval()
 
-uploaded_file = st.file_uploader("Выберите изображение в формате jpeg или jpg...", type="jpg")
+uploaded_file = st.file_uploader("Выберите изображение в формате jpeg или jpg...", type=["jpg", "jpeg"])
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='Загруженное изображение', use_column_width=True)
@@ -41,8 +42,8 @@ if uploaded_file is not None:
         top_probabilities, top_classes = torch.topk(probabilities, k=3)
         top_classes = top_classes.tolist()
 
-        
+  
 
     st.write('Топ-3 предсказания:')
     for i in range(3):
-        st.write(f'{decode(top_classes[i])}: {top_probabilities[i]:.2f}')
+        st.write(f'{gtranslate.translate((decode(top_classes[i])).replace("_", " ").capitalize(), "Russian")}: {top_probabilities[i]:.2f}')
