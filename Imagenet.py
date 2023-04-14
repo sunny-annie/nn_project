@@ -18,6 +18,10 @@ decode = lambda x: labels[str(x)][1]
 model = inception_v3(weights=Inception_V3_Weights.IMAGENET1K_V1)
 model.eval()
 
+st.write("""
+## Загрузи фотографию, и я определю, что на ней изображено 🕵🏻‍♂️
+""")
+
 uploaded_file = st.file_uploader("Выберите изображение в формате jpeg или jpg...", type=["jpg", "jpeg"])
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
